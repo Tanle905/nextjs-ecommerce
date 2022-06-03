@@ -10,8 +10,8 @@ export default function Login() {
     setIsLoading(true);
     event.preventDefault();
     auth(email, password).then(({ userData, error }) => {
-      setIsLoading(false);
       if (!error) {
+        setIsLoading(false);
         window.location = "/";
       } else alert("tai khoan hoac mat khau loi");
     });
