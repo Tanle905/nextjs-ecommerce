@@ -1,9 +1,15 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./header.module.sass";
 
 export default function Header({ user }) {
+  const router = useRouter();
+  function logoutHandle() {
+    localStorage.removeItem("token");
+    router.reload();
+  }
   return (
     <div>
       <Head>
@@ -79,17 +85,21 @@ export default function Header({ user }) {
 
             <span>Đơn hàng</span>
           </button>
-          <Link href={"/login"}>
-            <button className={styles.icon__button}>
-              {user ? (
-                <><Image
+          <button className={styles.icon__button}>
+            {user ? (
+              <>
+                <Image
+                  className={styles["icon"]}
+                  onClick={() => logoutHandle()}
                   loader={() => user.avatar}
                   src="me.png"
-                  width={25}
-                  height={25}
-                ></Image><span>{user.firstName}</span></>
-              ) : (
-                <>
+                  layout="fill"
+                ></Image>
+                <span>{user.firstName}</span>
+              </>
+            ) : (
+              <>
+                <Link href={"/login"}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className={styles["icon"]}
@@ -104,11 +114,11 @@ export default function Header({ user }) {
                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                   </svg>
-                  <span>{"Dang nhap"}</span>
-                </>
-              )}
-            </button>
-          </Link>
+                </Link>
+                <span>{"Dang nhap"}</span>
+              </>
+            )}
+          </button>
           <button className={styles.icon__button}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
