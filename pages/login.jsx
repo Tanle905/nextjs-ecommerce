@@ -11,9 +11,11 @@ export default function Login() {
     event.preventDefault();
     auth(email, password).then(({ userData, error }) => {
       if (!error) {
-        setIsLoading(false);
         window.location = "/";
-      } else alert("tai khoan hoac mat khau loi");
+      } else{
+        alert("tai khoan hoac mat khau loi")
+        setIsLoading(false);
+      };
     });
   }
   return isLoading ? (
