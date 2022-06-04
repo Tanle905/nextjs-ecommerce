@@ -1,4 +1,4 @@
-import Header from "./header";
+import Header from "./header/Header";
 import Image from "next/image";
 
 

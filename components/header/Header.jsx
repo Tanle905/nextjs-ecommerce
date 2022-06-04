@@ -1,15 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import styles from "./header.module.sass";
+import styles from "./Header.module.sass";
+import HeaderProfile from "./HeaderProfile";
+import { useContext, useState } from "react";
+import { UserContext } from "../../pages/_app";
 
-export default function Header({ user }) {
-  const router = useRouter();
-  function logoutHandle() {
-    localStorage.removeItem("token");
-    router.reload();
-  }
+export default function Header() {
+  const [isProfileHover, setIsProfileHover] = useState(false);
+  const {user} = useContext(UserContext);
   return (
     <div>
       <Head>
@@ -89,13 +88,15 @@ export default function Header({ user }) {
             {user ? (
               <>
                 <Image
-                  className={styles["icon"]}
-                  onClick={() => logoutHandle()}
+                  className={styles.avatar__img}
                   loader={() => user.avatar}
+                  onMouseEnter={() => setIsProfileHover(true)}
+                  onMouseLeave={() => setIsProfileHover(false)}
                   src="me.png"
                   layout="fill"
                 ></Image>
                 <span>{user.firstName}</span>
+                {isProfileHover && <HeaderProfile setIsProfileHover={setIsProfileHover}></HeaderProfile>}
               </>
             ) : (
               <>
