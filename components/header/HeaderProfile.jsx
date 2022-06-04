@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function HeaderProfile({ setIsProfileHover }) {
   const router = useRouter();
-  const user = useContext(UserContext);
+  const {user} = useContext(UserContext);
 
   function logoutHandle() {
     localStorage.removeItem("token");
