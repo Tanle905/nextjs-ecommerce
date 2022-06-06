@@ -1,12 +1,13 @@
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { UserContext } from "../../pages/_app";
+import { LayoutContext } from "../../pages/_app";
 import styles from "./HeaderProfile.module.sass";
 import Link from "next/link";
 
 export default function HeaderProfile({ setIsProfileHover }) {
   const router = useRouter();
-  const {user} = useContext(UserContext);
+  const {user} = useContext(LayoutContext);
+
 
   function logoutHandle() {
     localStorage.removeItem("token");

@@ -1,6 +1,49 @@
+import { useContext } from "react";
+import { LayoutContext } from "../../pages/_app";
 import styles from "./ProductDetails.module.sass";
-
 export default function ProductDetails({ productData }) {
+  const { setTotalQuantity } = useContext(LayoutContext);
+  function AddToCartHandle() {
+    const items =
+      (localStorage.getItem("items") &&
+        JSON.parse(localStorage.getItem("items"))) ||
+      [];
+    const quantityLeft =
+      productData.quantity -
+      ((checkForDuplicate(items, productData._id)[0] &&
+        checkForDuplicate(items, productData._id)[0].quantity) ||
+        0);
+    if (quantityLeft > 0) {
+      if (checkForDuplicate(items, productData._id).length !== 0) {
+        checkForDuplicate(items, productData._id)[0].quantity++;
+        totalQuantityHandle(items);
+      } else {
+        items.push({
+          id: productData._id,
+          name: productData.name,
+          price: productData.price,
+          image: productData.image,
+          quantity: 1,
+          sku: productData.sku,
+        });
+        totalQuantityHandle(items);
+      }
+      localStorage.setItem("items", JSON.stringify(items));
+      quantityLeft--;
+    } else alert("Da dat so luong toi da");
+
+    function checkForDuplicate(items, id) {
+      return items.filter((item) => item.id.includes(id));
+    }
+    function totalQuantityHandle(items) {
+      let quantity = 0;
+      items[0] &&
+        items.forEach((item) => {
+          quantity = quantity + item.quantity;
+        });
+      setTotalQuantity(quantity);
+    }
+  }
   return (
     <div className={styles.product}>
       <div className={styles["product-upper"]}>
@@ -18,7 +61,10 @@ export default function ProductDetails({ productData }) {
           </div>
           <div className={styles.button}>
             <button className={styles["buy-now__button"]}>MUA NGAY</button>
-            <button className={styles["add-to-cart__button"]}>
+            <button
+              className={styles["add-to-cart__button"]}
+              onClick={AddToCartHandle}
+            >
               THÊM VÀO GIỎ HÀNG
             </button>
           </div>
