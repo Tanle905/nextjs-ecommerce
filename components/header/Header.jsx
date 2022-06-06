@@ -8,7 +8,6 @@ import { LayoutContext } from "../../pages/_app";
 import { useRouter } from "next/router";
 import ProductSearch from "../product/ProductSearch";
 import HeaderCart from "./HeaderCart";
-
 export default function Header() {
   const router = useRouter();
   const [isProfileHover, setIsProfileHover] = useState(false);
