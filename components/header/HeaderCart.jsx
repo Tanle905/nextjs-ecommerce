@@ -40,7 +40,7 @@ export default function HeaderCart({ setIsCartHover }) {
               Tổng tiền({totalQuantity}) sản phẩm:{" "}
             </span>
             <span className={styles["total-price__span"]}>
-              {totalPrice}$ USD
+              {Math.round(totalPrice * 100) / 100}$ USD
             </span>
           </div>
           <div className={styles["to-checkout__button"]}>Xem giỏ hàng</div>
