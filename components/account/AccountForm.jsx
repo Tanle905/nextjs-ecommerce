@@ -23,10 +23,9 @@ export default function AccountForm() {
   useEffect(() => setForm(initialValues), [user]);
   function onChangeHandle(event) {
     const { name, value } = event.target;
-    console.log(value);
     setForm((prevForm) => {
       const index = prevForm.findIndex((input) => input.name === name);
-      prevForm[index].value = event.target.value;
+      prevForm[index].value = value;
       return [...prevForm];
     });
   }
@@ -53,5 +52,8 @@ export default function AccountForm() {
         </form>
       </section>
     );
-  } else return <div>is loading...</div>;
+  } else{
+    setTimeout(()=>router.push('/login'), 5000)
+    return <div>is loading...</div>
+  };
 }

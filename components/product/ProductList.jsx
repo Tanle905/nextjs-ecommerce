@@ -1,10 +1,10 @@
 import styles from "./ProductList.module.sass"
 import Link from "next/link";
 
-export default function ProductList({products}) {
+export default function ProductList({products, title}) {
   return (
     <div className={styles.product}>
-    <span className={styles.title__span}>Sản phẩm</span>
+    <span className={styles.title__span}>{title}</span>
     <div className={styles["product-container"]}>
       {products.map((product) => {
         return (
