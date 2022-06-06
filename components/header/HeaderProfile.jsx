@@ -8,6 +8,7 @@ export default function HeaderProfile({ setIsProfileHover }) {
   const router = useRouter();
   const {user} = useContext(LayoutContext);
 
+
   function logoutHandle() {
     localStorage.removeItem("token");
     router.reload();
