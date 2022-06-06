@@ -3,11 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Header.module.sass";
 import HeaderProfile from "./HeaderProfile";
-import React, { useContext, useEffect, useState } from "react";
-import { LayoutContext } from "../../pages/_app";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../pages/_app";
 import { useRouter } from "next/router";
 import ProductSearch from "../product/ProductSearch";
-import HeaderCart from "./HeaderCart";
+// import HeaderCart from "./HeaderCart";
+
 export default function Header() {
   const router = useRouter();
   const [isProfileHover, setIsProfileHover] = useState(false);
@@ -15,19 +16,8 @@ export default function Header() {
   const [isSearchFocus, setIsSearchFocus] = useState(false);
   const [isSearchHover, setIsSearchHover] = useState(false);
   const [isCartHover, setIsCartHover] = useState(false);
-  const { user, totalQuantity, setTotalQuantity } = useContext(LayoutContext);
+  const { user } = useContext(UserContext);
 
-  useEffect(() => {
-    if (localStorage.getItem("items")) {
-      const cartItems = JSON.parse(localStorage.getItem("items"));
-      let quantity = 0;
-      cartItems &&
-        cartItems.forEach((item) => {
-          quantity = quantity + item.quantity;
-        });
-      setTotalQuantity(quantity);
-    }
-  }, []);
   function searchHandle(e) {
     e.preventDefault();
     if (searchValue !== "") {
@@ -201,11 +191,6 @@ export default function Header() {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            {totalQuantity !== 0 && (
-              <div className={styles["cart-badge"]}>
-                <span>{totalQuantity}</span>
-              </div>
-            )}
             <span>Giỏ hàng</span>
             {isCartHover && (
               <HeaderCart setIsCartHover={setIsCartHover}></HeaderCart>

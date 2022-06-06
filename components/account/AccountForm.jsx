@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { LayoutContext } from "../../pages/_app";
+import { UserContext } from "../../pages/_app";
 import FormDetail from "./FormDetail";
 import styles from "./AccountForm.module.sass";
 import { updateAccount } from "../../lib/services";
 import { useRouter } from "next/router";
 
 export default function AccountForm() {
-  const { user } = useContext(LayoutContext);
+  const { user } = useContext(UserContext);
   const router = useRouter()
   const initialValues = [
     { name: "firstName", label: "Họ", value: (user && user.firstName) || "" },
@@ -23,9 +23,10 @@ export default function AccountForm() {
   useEffect(() => setForm(initialValues), [user]);
   function onChangeHandle(event) {
     const { name, value } = event.target;
+    console.log(value);
     setForm((prevForm) => {
       const index = prevForm.findIndex((input) => input.name === name);
-      prevForm[index].value = value;
+      prevForm[index].value = event.target.value;
       return [...prevForm];
     });
   }
@@ -52,7 +53,5 @@ export default function AccountForm() {
         </form>
       </section>
     );
-  } else{
-    return <div>is loading...</div>
-  };
+  } else return <div>is loading...</div>;
 }
