@@ -1,0 +1,52 @@
+@import "../../styles/globals"
+
+.header-profile
+    position: absolute
+    background-color: white
+    color: black
+    display: flex
+    flex-direction: column
+    border: 1px solid $lighter-gray
+    border-radius: 3px
+    box-shadow: 1px 2px 10px $light-gray
+    top: 3rem
+    z-index: 20
+    .profile-info
+        display: flex
+        padding: 10px
+        .header__img
+            width: 30px
+            object-fit: contain
+        .title
+            display: flex
+            flex-direction: column
+            span
+                display: inline-block
+                margin: 1px 0px
+                margin-right: auto
+            .title__span
+                font-weight: bolder
+    .logout__button
+        background-color: $light-blue
+        cursor: pointer
+        border: none
+        border-radius: 3px
+        color: white
+        margin: 5px
+        padding: 5px 2px
+        &:hover
+            transition: all 200ms
+            transition-timing-function: ease-in-out
+            transform: translate(0px,-1px)
+            background-color: $lighter-blue
+    .option
+        width: 96%
+        padding: 2%
+        cursor: pointer
+        &:hover
+            background-color: $lighter-gray
+        span
+            display: inline-block
+            margin-right: auto
+            font-weight: 500
+            
