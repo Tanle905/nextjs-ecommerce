@@ -1,10 +1,8 @@
 import Layout from "../components/Layout";
 import "../styles/globals.sass";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { autoLogout } from "../lib/auth";
 import { getAllProducts } from "../lib/product";
-
-export const LayoutContext = React.createContext();
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState();
@@ -16,13 +14,9 @@ function MyApp({ Component, pageProps }) {
     autoLogout(user, setUser);
   }, [user]);
   return (
-    <LayoutContext.Provider
-      value={{ user, setUser, product, totalQuantity, setTotalQuantity }}
-    >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </LayoutContext.Provider>
+    <Layout user={user}>
+      <Component {...pageProps} />
+    </Layout>
   );
 }
 
