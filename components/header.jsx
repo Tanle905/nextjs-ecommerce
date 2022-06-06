@@ -1,41 +1,14 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
-import styles from "./Header.module.sass";
-import HeaderProfile from "./HeaderProfile";
-import React, { useContext, useEffect, useState } from "react";
-import { LayoutContext } from "../../pages/_app";
 import { useRouter } from "next/router";
-import ProductSearch from "../product/ProductSearch";
-import HeaderCart from "./HeaderCart";
-export default function Header() {
-  const router = useRouter();
-  const [isProfileHover, setIsProfileHover] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [isSearchFocus, setIsSearchFocus] = useState(false);
-  const [isSearchHover, setIsSearchHover] = useState(false);
-  const [isCartHover, setIsCartHover] = useState(false);
-  const { user, totalQuantity, setTotalQuantity } = useContext(LayoutContext);
+import Link from "next/link";
+import styles from "./header.module.sass";
 
-  useEffect(() => {
-    if (localStorage.getItem("items")) {
-      const cartItems = JSON.parse(localStorage.getItem("items"));
-      let quantity = 0;
-      cartItems &&
-        cartItems.forEach((item) => {
-          quantity = quantity + item.quantity;
-        });
-      setTotalQuantity(quantity);
-    }
-  }, []);
-  function searchHandle(e) {
-    e.preventDefault();
-    if (searchValue !== "") {
-      router.push({
-        pathname: "/search",
-        query: { name: searchValue.toLowerCase() },
-      });
-    }
+export default function Header({ user }) {
+  const router = useRouter();
+  function logoutHandle() {
+    localStorage.removeItem("token");
+    router.reload();
   }
   return (
     <div>
@@ -129,19 +102,13 @@ export default function Header() {
             {user ? (
               <>
                 <Image
-                  className={styles.avatar__img}
+                  className={styles["icon"]}
+                  onClick={() => logoutHandle()}
                   loader={() => user.avatar}
-                  onMouseEnter={() => setIsProfileHover(true)}
-                  onMouseLeave={() => setIsProfileHover(false)}
                   src="me.png"
                   layout="fill"
                 ></Image>
                 <span>{user.firstName}</span>
-                {isProfileHover && (
-                  <HeaderProfile
-                    setIsProfileHover={setIsProfileHover}
-                  ></HeaderProfile>
-                )}
               </>
             ) : (
               <>
