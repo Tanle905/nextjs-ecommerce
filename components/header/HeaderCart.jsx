@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import styles from "./HeaderCart.module.sass";
 
 export default function HeaderCart({ setIsCartHover }) {
   if (localStorage.getItem("items")) {
-    const cartItems = JSON.parse(localStorage.getItem('items'))
+    const cartItems = JSON.parse(localStorage.getItem("items"));
     let totalQuantity = null;
     let totalPrice = null;
     cartItems.forEach((item) => {
