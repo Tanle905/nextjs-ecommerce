@@ -3,12 +3,8 @@ import { useEffect, useState } from "react";
 import styles from "./HeaderCart.module.sass";
 
 export default function HeaderCart({ setIsCartHover }) {
-  const [cartItems, setCartItems] = useState(null);
-  useEffect(() => {
-    localStorage.getItem("items") &&
-      setCartItems(JSON.parse(localStorage.getItem("items")));
-  }, []);
-  if (cartItems) {
+  if (localStorage.getItem("items")) {
+    const cartItems = JSON.parse(localStorage.getItem('items'))
     let totalQuantity = null;
     let totalPrice = null;
     cartItems.forEach((item) => {

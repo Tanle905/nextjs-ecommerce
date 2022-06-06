@@ -9,7 +9,7 @@ export const LayoutContext = React.createContext();
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState();
   const [product, setProduct] = useState();
-  const [totalQuantity, setTotalQuantity] = useState();
+  const [totalQuantity, setTotalQuantity] = useState(0);
   useEffect(() => {
     console.log("mounted");
     getAllProducts().then((data) => setProduct(JSON.parse(data)));

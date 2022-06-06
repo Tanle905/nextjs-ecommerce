@@ -16,18 +16,17 @@ export default function Header() {
   const [isSearchHover, setIsSearchHover] = useState(false);
   const [isCartHover, setIsCartHover] = useState(false);
   const { user, totalQuantity, setTotalQuantity } = useContext(LayoutContext);
-  const [cartItems, setCartItems] = useState(null);
 
   useEffect(() => {
-    setCartItems(
-      localStorage.getItem("items") && JSON.parse(localStorage.getItem("items"))
-    );
-    let quantity = 0;
-    cartItems &&
-      cartItems.forEach((item) => {
-        quantity = quantity + item.quantity;
-      });
-    setTotalQuantity(quantity);
+    if (localStorage.getItem("items")) {
+      const cartItems = JSON.parse(localStorage.getItem("items"));
+      let quantity = 0;
+      cartItems &&
+        cartItems.forEach((item) => {
+          quantity = quantity + item.quantity;
+        });
+      setTotalQuantity(quantity);
+    }
   }, []);
   function searchHandle(e) {
     e.preventDefault();
@@ -202,7 +201,7 @@ export default function Header() {
                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
               />
             </svg>
-            {cartItems && (
+            {totalQuantity !== 0 && (
               <div className={styles["cart-badge"]}>
                 <span>{totalQuantity}</span>
               </div>
