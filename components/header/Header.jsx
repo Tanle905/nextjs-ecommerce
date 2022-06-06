@@ -7,7 +7,7 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../pages/_app";
 import { useRouter } from "next/router";
 import ProductSearch from "../product/ProductSearch";
-import HeaderCart from "./HeaderCart";
+// import HeaderCart from "./HeaderCart";
 
 export default function Header() {
   const router = useRouter();
