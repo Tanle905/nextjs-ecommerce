@@ -6,8 +6,6 @@ import { getAllProducts } from "../lib/product";
 
 export const LayoutContext = React.createContext();
 
-export const UserContext = React.createContext();
-
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState();
   const [product, setProduct] = useState();
