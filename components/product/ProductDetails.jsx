@@ -2,7 +2,8 @@ import styles from "./ProductDetails.module.sass";
 export default function ProductDetails({ productData }) {
   function AddToCartHandle() {
     const items =
-      (localStorage["items"] && JSON.parse(localStorage["items"])) || [];
+      (localStorage.getItem("items") && JSON.parse(localStorage.getItem("items"))) ||
+      [];
     const quantityLeft =
       productData.quantity -
       ((checkForDuplicate(items, productData._id)[0] &&

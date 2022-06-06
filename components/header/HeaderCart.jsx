@@ -3,7 +3,14 @@ import styles from "./HeaderCart.module.sass";
 
 export default function HeaderCart({ setIsCartHover }) {
   if (localStorage.getItem("items")) {
+    let totalQuantity = null;
+    let totalPrice = null;
     const cartItems = JSON.parse(localStorage.getItem("items"));
+    cartItems &&
+      cartItems.forEach((item) => {
+        totalQuantity = totalQuantity + item.quantity;
+        totalPrice = totalPrice + item.price * item.quantity;
+      });
     return (
       <section
         className={styles["header-cart"]}
@@ -22,7 +29,7 @@ export default function HeaderCart({ setIsCartHover }) {
                   <span className={styles.quantity__span}>
                     Số lượng: {item.quantity}
                   </span>
-                  <span className={styles.price__span}>{item.price}</span>
+                  <span className={styles.price__span}>{item.price}$ USD</span>
                 </div>
               </div>
             );
@@ -30,12 +37,14 @@ export default function HeaderCart({ setIsCartHover }) {
         </div>
         <div className={styles["to-checkout"]}>
           <div className={styles.total}>
-            {/* <span class="total-quantity__span">Tổng tiền({{totalQuantity}}) sản phẩm: </span> */}
-            {/* <span class="total-price__span">{{totalPrice | currency:'AUD':'symbol-narrow':'3.2-2'}}</span> */}
+            <span className={styles["total-quantity__span"]}>
+              Tổng tiền({totalQuantity}) sản phẩm:{" "}
+            </span>
+            <span className={styles["total-price__span"]}>
+              {totalPrice}$ USD
+            </span>
           </div>
-          <div className={styles["to-checkout__button"]}>
-            Xem giỏ hàng
-          </div>
+          <div className={styles["to-checkout__button"]}>Xem giỏ hàng</div>
         </div>
       </section>
     );
