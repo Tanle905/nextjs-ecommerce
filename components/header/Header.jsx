@@ -3,12 +3,30 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Header.module.sass";
 import HeaderProfile from "./HeaderProfile";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../pages/_app";
+import { useRouter } from "next/router";
+import ProductSearch from "../product/ProductSearch";
+// import HeaderCart from "./HeaderCart";
 
 export default function Header() {
+  const router = useRouter();
   const [isProfileHover, setIsProfileHover] = useState(false);
-  const {user} = useContext(UserContext);
+  const [searchValue, setSearchValue] = useState("");
+  const [isSearchFocus, setIsSearchFocus] = useState(false);
+  const [isSearchHover, setIsSearchHover] = useState(false);
+  const [isCartHover, setIsCartHover] = useState(false);
+  const { user } = useContext(UserContext);
+
+  function searchHandle(e) {
+    e.preventDefault();
+    if (searchValue !== "") {
+      router.push({
+        pathname: "/search",
+        query: { name: searchValue.toLowerCase() },
+      });
+    }
+  }
   return (
     <div>
       <Head>
@@ -29,8 +47,15 @@ export default function Header() {
               type="text"
               className={styles.form__input}
               placeholder="Nhập từ khóa cần tìm..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onFocus={() => setIsSearchFocus(true)}
+              onBlur={() => setIsSearchFocus(false)}
             />
-            <button className={styles.form__button}>
+            <button
+              className={styles.form__button}
+              onClick={(e) => searchHandle(e)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -46,6 +71,12 @@ export default function Header() {
                 />
               </svg>
             </button>
+            {searchValue !== "" && (isSearchFocus || isSearchHover) && (
+              <ProductSearch
+                searchValue={searchValue}
+                setIsSearchHover={setIsSearchHover}
+              ></ProductSearch>
+            )}
           </form>
         </div>
         <div className={styles.header__right}>
@@ -96,7 +127,11 @@ export default function Header() {
                   layout="fill"
                 ></Image>
                 <span>{user.firstName}</span>
-                {isProfileHover && <HeaderProfile setIsProfileHover={setIsProfileHover}></HeaderProfile>}
+                {isProfileHover && (
+                  <HeaderProfile
+                    setIsProfileHover={setIsProfileHover}
+                  ></HeaderProfile>
+                )}
               </>
             ) : (
               <>
@@ -116,7 +151,7 @@ export default function Header() {
                     />
                   </svg>
                 </Link>
-                <span>{"Dang nhap"}</span>
+                <span>Đăng nhập</span>
               </>
             )}
           </button>
@@ -137,7 +172,11 @@ export default function Header() {
             </svg>
             <span>Thông báo</span>
           </button>
-          <button className={styles.icon__button}>
+          <button
+            className={styles.icon__button}
+            onMouseEnter={() => setIsCartHover(true)}
+            onMouseLeave={() => setIsCartHover(false)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={styles["icon"]}
@@ -153,6 +192,9 @@ export default function Header() {
               />
             </svg>
             <span>Giỏ hàng</span>
+            {isCartHover && (
+              <HeaderCart setIsCartHover={setIsCartHover}></HeaderCart>
+            )}
           </button>
         </div>
       </header>
