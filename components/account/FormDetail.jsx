@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const FormDetail = React.memo(function FormDetail({ input, onChangeHandle }) {
   const { name, value, label } = input;
@@ -6,10 +6,9 @@ const FormDetail = React.memo(function FormDetail({ input, onChangeHandle }) {
     <div>
       <label>{label}</label>
       <input
-        disabled={name === 'email'}
         name={name}
         type={name === 'dob' ? 'date' : 'text'}
-        value={name === 'dob' ? value.slice(0, value.indexOf("T")) : value}
+        value={name === 'dob' ? value.slice(0, 10) : value}
         onChange={(event) => onChangeHandle(event)}
       />
     </div>
