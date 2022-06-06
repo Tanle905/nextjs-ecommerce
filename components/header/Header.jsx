@@ -1,14 +1,31 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import Link from "next/link";
-import styles from "./header.module.sass";
+import styles from "./Header.module.sass";
+import HeaderProfile from "./HeaderProfile";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../pages/_app";
+import { useRouter } from "next/router";
+import ProductSearch from "../product/ProductSearch";
+// import HeaderCart from "./HeaderCart";
 
-export default function Header({ user }) {
+export default function Header() {
   const router = useRouter();
-  function logoutHandle() {
-    localStorage.removeItem("token");
-    router.reload();
+  const [isProfileHover, setIsProfileHover] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [isSearchFocus, setIsSearchFocus] = useState(false);
+  const [isSearchHover, setIsSearchHover] = useState(false);
+  const [isCartHover, setIsCartHover] = useState(false);
+  const { user } = useContext(UserContext);
+
+  function searchHandle(e) {
+    e.preventDefault();
+    if (searchValue !== "") {
+      router.push({
+        pathname: "/search",
+        query: { name: searchValue.toLowerCase() },
+      });
+    }
   }
   return (
     <div>
@@ -30,8 +47,15 @@ export default function Header({ user }) {
               type="text"
               className={styles.form__input}
               placeholder="Nhập từ khóa cần tìm..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onFocus={() => setIsSearchFocus(true)}
+              onBlur={() => setIsSearchFocus(false)}
             />
-            <button className={styles.form__button}>
+            <button
+              className={styles.form__button}
+              onClick={(e) => searchHandle(e)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -47,6 +71,12 @@ export default function Header({ user }) {
                 />
               </svg>
             </button>
+            {searchValue !== "" && (isSearchFocus || isSearchHover) && (
+              <ProductSearch
+                searchValue={searchValue}
+                setIsSearchHover={setIsSearchHover}
+              ></ProductSearch>
+            )}
           </form>
         </div>
         <div className={styles.header__right}>
@@ -89,13 +119,19 @@ export default function Header({ user }) {
             {user ? (
               <>
                 <Image
-                  className={styles["icon"]}
-                  onClick={() => logoutHandle()}
+                  className={styles.avatar__img}
                   loader={() => user.avatar}
+                  onMouseEnter={() => setIsProfileHover(true)}
+                  onMouseLeave={() => setIsProfileHover(false)}
                   src="me.png"
                   layout="fill"
                 ></Image>
                 <span>{user.firstName}</span>
+                {isProfileHover && (
+                  <HeaderProfile
+                    setIsProfileHover={setIsProfileHover}
+                  ></HeaderProfile>
+                )}
               </>
             ) : (
               <>
@@ -115,7 +151,7 @@ export default function Header({ user }) {
                     />
                   </svg>
                 </Link>
-                <span>{"Dang nhap"}</span>
+                <span>Đăng nhập</span>
               </>
             )}
           </button>
@@ -136,7 +172,11 @@ export default function Header({ user }) {
             </svg>
             <span>Thông báo</span>
           </button>
-          <button className={styles.icon__button}>
+          <button
+            className={styles.icon__button}
+            onMouseEnter={() => setIsCartHover(true)}
+            onMouseLeave={() => setIsCartHover(false)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={styles["icon"]}
@@ -152,6 +192,9 @@ export default function Header({ user }) {
               />
             </svg>
             <span>Giỏ hàng</span>
+            {isCartHover && (
+              <HeaderCart setIsCartHover={setIsCartHover}></HeaderCart>
+            )}
           </button>
         </div>
       </header>
