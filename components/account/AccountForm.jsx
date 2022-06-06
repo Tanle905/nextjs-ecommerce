@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { UserContext } from "../../pages/_app";
+import { LayoutContext } from "../../pages/_app";
 import FormDetail from "./FormDetail";
 import styles from "./AccountForm.module.sass";
 import { updateAccount } from "../../lib/services";
 import { useRouter } from "next/router";
 
 export default function AccountForm() {
-  const { user } = useContext(UserContext);
+  const { user } = useContext(LayoutContext);
   const router = useRouter()
   const initialValues = [
     { name: "firstName", label: "Họ", value: (user && user.firstName) || "" },
@@ -53,7 +53,6 @@ export default function AccountForm() {
       </section>
     );
   } else{
-    setTimeout(()=>router.push('/login'), 5000)
     return <div>is loading...</div>
   };
 }

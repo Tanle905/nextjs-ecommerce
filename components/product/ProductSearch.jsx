@@ -2,10 +2,10 @@ import { useContext } from "react";
 import styles from "./ProductSearch.module.sass";
 import Link from "next/link";
 import Image from "next/image";
-import { ProductContext } from "../../pages/_app";
+import { LayoutContext } from "../../pages/_app";
 
 export default function ProductSearch({ searchValue, setIsSearchHover }) {
-  const { product } = useContext(ProductContext);
+  const { product } = useContext(LayoutContext);
   if (product) {
     const productData = product.data;
     const matchedProduct = productData.filter((product) =>

@@ -6,11 +6,10 @@ export default function HeaderCart({ setIsCartHover }) {
     let totalQuantity = null;
     let totalPrice = null;
     const cartItems = JSON.parse(localStorage.getItem("items"));
-    cartItems &&
-      cartItems.forEach((item) => {
-        totalQuantity = totalQuantity + item.quantity;
-        totalPrice = totalPrice + item.price * item.quantity;
-      });
+    cartItems.forEach((item) => {
+      totalQuantity = totalQuantity + item.quantity;
+      totalPrice = totalPrice + item.price * item.quantity;
+    });
     return (
       <section
         className={styles["header-cart"]}
